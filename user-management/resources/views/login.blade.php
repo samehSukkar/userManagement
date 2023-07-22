@@ -1,8 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>login</title>
+</head>
+<body>
+    
+    @include('navbar')
+    
+    <section>
 
-
-           
-    <h1>Login</h1>
-    <div>
         <form class="login-form" action="login" method="POST">
             @csrf
             <div>
@@ -15,5 +25,10 @@
             </div>
             <button class="login-btn" type="submit">login</button>
         </form>
-    </div>
+        
+    </section>
+    
+</body>
+</html>
+
 

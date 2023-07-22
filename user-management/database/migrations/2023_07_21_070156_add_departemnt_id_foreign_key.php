@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('users', 'department_id')) {
+        
             Schema::table('users', function (Blueprint $table) {
                 $table->unsignedBigInteger('department_id')->nullable();
 
                 $table->foreign('department_id')
                       ->references('id')
                       ->on('departments')
-                      ->onDelete('cascade');
+                      ->onDelete('set null');
             });
-        }
+        
     }
 
     /**

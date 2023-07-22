@@ -10,12 +10,17 @@
     @include('navbar')
 
     <section>
-
-        <h1>edit user</h1>
-        <div >
-            <form class="new-user-form" action="/edit-user/{{$user->id}}" method="POST">
+            @if (auth()->user()->is_admin)
+            <h1>edit user</h1>
+            <form class="new-user-form" action="/edit-user/{{$user->id}}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <div class="image">
+                    <label for="image">image</label>
+                    <input type="file" name="image">
+                </div>
+                
                 <div>
                     <label for="firstname">firstname</label>
                     <input type="text" name="firstname" id="firstname" value={{$user->firstname}}>
@@ -30,15 +35,30 @@
             </div>
             <div>
                 <label for="gender">gender</label>
-                <input type="text" name="gender" id="gender" value={{$user->gender}}>
+                <select name="gender" id="gender">
+                    <option value="male" @if ($user->gender == "male") selected="selected" @endif >male</option>
+                    <option value="female" @if ($user->gender == "female") selected="selected" @endif>female</option>
+                </select>
+            </div>
+            <div>
+                <label for="department">department</label>
+                <select name="department_id" id="department"> 
+                    @foreach ($departments as $d)
+                        <option @if ($d->id == $user->department_id) selected="selected" @endif
+                        
+                        value="{{$d->id}}">{{$d->name}}</option>
+                    @endforeach
+                </select>
             </div>
             <div>
                 <label for="password">password</label>
                 <input type="password" name="password" id="password">
             </div>
-            <button class="register-btn" type="submit">register</button>
+            <button class="register-btn" type="submit">submit</button>
         </form>
-    </div>
+        @else
+        <p>You are not authriezed </p>
+        @endif
 </section>
     
 </body>

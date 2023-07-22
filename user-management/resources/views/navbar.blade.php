@@ -1,5 +1,10 @@
 <nav>
-    <h2>User Management System</h2>
+    <h2 class="logo">
+        <a  @auth @if (auth()->user()->is_admin) href="/"  @endif @endauth>
+            User Management System
+        </a>
+    </h2>
+
     <ul>
         @auth
         @if (auth()->user()->is_admin)

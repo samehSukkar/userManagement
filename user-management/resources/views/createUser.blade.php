@@ -14,27 +14,44 @@
 
             <h1>add new user</h1>
             <div >
-                <form class="new-user-form" action="/create-user" method="POST">
-                        @csrf
-                        <div>
-                            <label for="firstname">firstname</label>
-                            <input type="text" name="firstname" id="firstname">
+                <form class="new-user-form" action="/create-user" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="image">
+                        <label for="image">image</label>
+                        <input type="file" name="image">
+                    </div>
+
+                    <div>
+                        <label for="firstname">firstname</label>
+                        <input type="text" name="firstname" id="firstname" required>
                     </div>
                     <div>
                         <label for="lastname">lastname</label>
-                        <input type="text" name="lastname" id="lastname">
+                        <input type="text" name="lastname" id="lastname" required>
                     </div>
                     <div>
                         <label for="email">email</label>
-                        <input type="text" name="email" id="email">
+                        <input type="text" name="email" id="email" required>
                     </div>
                     <div>
                         <label for="gender">gender</label>
-                        <input type="text" name="gender" id="gender">
+                        <select name="gender" id="gender" required>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                        </select>
                     </div>
                     <div>
-                        <label for="password">password</label>
-                        <input type="password" name="password" id="password">
+                        <label for="department">department</label>
+                        <select name="department_id" id="department" required> 
+                            @foreach ($departments as $d)
+                                <option value="{{$d->id}}">{{$d->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label for="password" >password</label>
+                        <input type="password" name="password" id="password" required>
                     </div>
                     <button class="register-btn" type="submit">register</button>
                 </form>

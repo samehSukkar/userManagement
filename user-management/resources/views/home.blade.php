@@ -8,21 +8,38 @@
 </head>
 <body>
     @include('navbar')
-    @auth
+   
+    @if (auth()->user()->is_admin)
 
     <section>
-        
+
+        <div class="controls">
+            <div>
+                <button class="new-user-btn"><a href="/create-user">new user</a></button> 
+                <button class="new-dep-btn"><a href="/create-department">new department</a></button> 
+            </div>
+            <form action="/" method="GET"><input type="text" name="search"><button>search</button></form>
+        </div>
 
         <div class="users-table">
-            <button class="new-user-btn"><a href="/create-user">new user</a></button> 
+            <div class="user header">
+                <h4>firstname</h4>
+                <h4>lastname</h4>
+                <h4>email</h4>
+                <div>
+                    <span>profile</span>
+                    <span>edit</span>
+                    <span>delete</span>
+            </div>
+            </div>
             @foreach ($users as $user)
             <div class="user" id={{$user->id}}>
-                <h4>{{$user->id}}</h4>
                 <h4>{{$user->firstname}}</h4>
                 <h4>{{$user->lastname}}</h4>
                 <h4>{{$user->email}}</h4>
                 <div>
                     <button class="profile-button" ><a href="/user/{{$user->id}}">profile</a></button>
+                    <button class="edit-button" ><a href="/edit-user/{{$user->id}}">edit</a></button>
                     <button class="delete-button" onclick = "deleteUser({{$user->id}})" >delete</button>
                 </div>
             </div>
@@ -31,12 +48,10 @@
 
     </section>
 
-    @else 
-    
-    @include('login')
 
+    @else
+        <p>You are not authriezed </p>
     @endif
-
 
 </body>
 </html>
