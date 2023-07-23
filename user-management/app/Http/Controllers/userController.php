@@ -15,21 +15,21 @@ class userController extends Controller
             'loginemail' => ['required', 'email'],
             'loginpassword' => ['required', 'min:5' ,'max:100']
         ]);
+
         $password = $data['loginpassword'];
         $email = $data['loginemail'];
-       
 
-        $next = "/";
         if (auth()->attempt(['email' => $email, 'password'=>$password])) {
-            $request->session()->regenerate();
-
-            $user = User::where('email', $email)->first();
-            if (! $user->is_admin)
-                $next = "/user/$user->id";
-        }
-        
-        return redirect($next);
+            $user =auth()->user();
+            $token = $user->createToken('AuthToken')->plainTextToken;
+            return response()->json(['user' => $user, 'token' => $token], 200);
+            
+        } 
+            
+        return response()->json(['message' => 'Invalid credentials'], 401);
+                
     }
+
 
     public function logout() {
         auth()->logout();
@@ -69,14 +69,15 @@ class userController extends Controller
         ]);
 
         $data['passowrd'] = bcrypt($data['password']);
-
+        $data['api_token'] = Str::random(60);
+        
         if($request->file('image')){
             $file= $request->file('image');
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('Images'), $filename);
             $data['image']= $filename;
         }
-    
+        
         $user = User::create($data);
         return redirect("/");
     }
@@ -134,7 +135,6 @@ class userController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
         $user->save();
-
         return redirect("/user/$user->id");
     }
 
